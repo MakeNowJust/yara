@@ -155,6 +155,15 @@ AC_ARG_ENABLE([debug-dex],
     CFLAGS="$CFLAGS -DDEBUG_DEX_MODULE"
   fi])
 
+AC_ARG_ENABLE([hs],
+  [AS_HELP_STRING([--enable-hs], [enable hs module])],
+  [if test x$enableval = xyes; then
+    build_hs_module=true
+    PKG_CHECK_MODULES([HS], [libhs])
+    CFLAGS="$CFLAGS $HS_CFLAGS -DHS_MODULE"
+    LIBS="$LIBS $HS_LIBS"
+  fi])
+
 AC_ARG_WITH([jemalloc],
   [AS_HELP_STRING([--with-jemalloc],
     [use jemalloc to debug heap-related issues])],
@@ -287,6 +296,7 @@ AM_CONDITIONAL([MACHO_MODULE], [test x$build_macho_module = xtrue])
 AM_CONDITIONAL([GCC], [test "x$GCC" = xyes])
 AM_CONDITIONAL([DEX_MODULE], [test x$build_dex_module = xtrue])
 AM_CONDITIONAL([DEBUG_DEX_MODULE], [test x$debug_dex_module = xtrue])
+AM_CONDITIONAL([HS_MODULE], [test x$build_hs_module = xtrue])
 
 AM_CONDITIONAL([USE_WINDOWS_PROC], [test x$proc_interface = xwindows ])
 AM_CONDITIONAL([USE_LINUX_PROC], [test x$proc_interface = xlinux ])

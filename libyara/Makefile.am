@@ -32,6 +32,10 @@ if DEX_MODULE
 MODULES += modules/dex.c
 endif
 
+if HS_MODULE
+MODULES += modules/hs.c
+endif
+
 #
 # Add your modules here:
 #
