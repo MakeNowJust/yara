@@ -44,8 +44,8 @@ define_function(hs_match)
   YR_SCAN_CONTEXT* context = scan_context();
   SIZED_STRING* pattern = sized_string_argument(1);
 
-  hs_database_t* database;
-  hs_compile_error_t* compile_err;
+  hs_database_t* database = NULL;
+  hs_compile_error_t* compile_err = NULL;
   if (hs_compile(pattern->c_string, HS_FLAG_DOTALL, HS_MODE_STREAM, NULL, &database, &compile_err) != HS_SUCCESS)
   {
     fprintf(stderr, "ERROR: Unable to compile pattern: \"%s\": %s\n", pattern->c_string, compile_err->message);
@@ -53,10 +53,10 @@ define_function(hs_match)
     return ERROR_INTERNAL_FATAL_ERROR;
   }
 
-  hs_scratch_t *scratch;
+  hs_scratch_t *scratch = NULL;
   if (hs_alloc_scratch(database, &scratch) != HS_SUCCESS)
   {
-    fprintf(stderr, "ERROR: Unable to allocate scratch space.\n");
+    fprintf(stderr, "ERROR: Unable to allocate scratch space.");
     hs_free_database(database);
     return ERROR_INTERNAL_FATAL_ERROR;
   }
